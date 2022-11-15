@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package magisairdatabaseapplication;
+package magisairdatabaseapplication.MainPackage;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -57,6 +57,7 @@ public class LoginPage extends javax.swing.JFrame {
         jLabel2.setText("Database Name");
 
         NameField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        NameField.setText("booksdb");
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel3.setText("Port Number");
