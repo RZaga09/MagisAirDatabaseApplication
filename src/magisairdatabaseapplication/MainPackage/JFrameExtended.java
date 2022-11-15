@@ -75,7 +75,9 @@ public class JFrameExtended extends javax.swing.JFrame {
 
     private void mainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainMenuActionPerformed
         this.dispose();
-        new MainMenu().setVisible(true);
+        MainMenu m = new MainMenu();
+        m.setVisible(true);
+        m.setConnection(dbConnection);
     }//GEN-LAST:event_mainMenuActionPerformed
 
     /**
