@@ -95,6 +95,12 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         
     }
     
+    /**
+     * Attempts to update a record with a specific given primary key on the table.
+     * 
+     * @throws SQLException if attempt to update failed
+     */
+    
     public void updateRecord()throws SQLException {
         try {
             String[] dataInputs = getFormData();
@@ -110,6 +116,14 @@ public class TableManagerTemplate extends javax.swing.JFrame {
             System.out.println("Record update failed.");
         }
     }
+    
+    /**
+     * Attempts to delete a record with a specific primary key on the table.
+     * 
+     * @throws SQLException if attempt to delete failed. It's most likely this
+     * error is caused by the primary key of the record being deleted is the
+     * primary key of some record in another table.
+     */
     
     public void deleteRecord() throws SQLException {
         try {
