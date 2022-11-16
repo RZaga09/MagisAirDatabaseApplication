@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * <p> {@code TableManagerTemplate} provides a flexible template for other classes
@@ -36,6 +37,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     public TableManagerTemplate(Connection dbConnection) throws SQLException {
         initComponents();
         this.dbConnection = dbConnection;
+        getAllRecords();
     }
     
      /**
@@ -79,15 +81,50 @@ public class TableManagerTemplate extends javax.swing.JFrame {
             Statement statement = dbConnection.createStatement();
             int temp = statement.executeUpdate(query);
             System.out.println("Record added successfully");
+            refreshRecordsList();
         }
         catch (SQLException e) {
             System.out.println("Failed to add record");
         }
     }
     
-    public void getAllRecords(){
-        
+    public void getAllRecords()throws SQLException {
+        try{
+            String query = "SELECT * FROM " + tablename;
+            Statement statement = dbConnection.createStatement();
+            ResultSet recordsList = statement.executeQuery(query);
+            DefaultTableModel table = (DefaultTableModel)tblRecordsList.getModel();
+            
+            while(recordsList.next())
+            {
+                String[] row = {
+                    String.valueOf(recordsList.getInt(1)),
+                    recordsList.getString(2),
+                    recordsList.getString(3),
+                    recordsList.getString(4)
+                };
+                table.addRow(row);
+            }
+            
+            System.out.println("Records from data base retrieved.");
+        } catch (SQLException e){
+            System.out.println("Failed to get records from table.");
+        }
     }
+    
+    public void refreshRecordsList() throws SQLException {
+        try
+        {
+            tblRecordsList.setModel(new DefaultTableModel(null, new String[]{"authorid", "FirstName", "LastName", "Address"}));
+            getAllRecords();
+            System.out.println("Table refresh success");
+        } catch (SQLException e)
+        {
+            System.out.println("Failed to refresh table.");
+        }
+
+    }
+    
     /**
      * Attempts to retrieve a record with a specific primary key on the table.
      * 
@@ -129,6 +166,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
             Statement statement = dbConnection.createStatement();
             int temp = statement.executeUpdate(query);
             System.out.println("Record updated."); 
+            refreshRecordsList();
         }
         catch (SQLException e){
             System.out.println("Record update failed.");
@@ -152,6 +190,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
             Statement statement = dbConnection.createStatement();
             int temp = statement.executeUpdate(query);
             System.out.println("Delete record successful");
+            refreshRecordsList();
         } catch (SQLException e) {
             System.out.println("Delete record failed.");
         }
@@ -168,7 +207,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblRecordsList = new javax.swing.JTable();
         txtLastName = new javax.swing.JTextField();
         txtFirstName = new javax.swing.JTextField();
         txtAddress = new javax.swing.JTextField();
@@ -185,18 +224,33 @@ public class TableManagerTemplate extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblRecordsList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Author ID", "First Name", "Last Name", "Address"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblRecordsList);
+        if (tblRecordsList.getColumnModel().getColumnCount() > 0) {
+            tblRecordsList.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         txtLastName.setText("jTextField1");
 
@@ -286,9 +340,9 @@ public class TableManagerTemplate extends javax.swing.JFrame {
                             .addComponent(btnUpdateRecord)
                             .addComponent(createReport)
                             .addComponent(btnGetRecord))))
-                .addGap(56, 56, 56)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -389,7 +443,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblRecordsList;
     private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtFirstName;
     private javax.swing.JTextField txtID;
