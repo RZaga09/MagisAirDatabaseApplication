@@ -141,7 +141,7 @@ public class LoginPage extends javax.swing.JFrame {
         jLabel4.setText("User");
 
         UserField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        UserField.setText("newuser");
+        UserField.setText("root");
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel5.setText("Password");
@@ -153,7 +153,7 @@ public class LoginPage extends javax.swing.JFrame {
             }
         });
 
-        pwdDatabase.setText("root");
+        pwdDatabase.setText("group_study_1218");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * <p> {@code TableManagerTemplate} provides a flexible template for other classes
@@ -122,6 +124,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        createReport = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -165,6 +168,13 @@ public class TableManagerTemplate extends javax.swing.JFrame {
 
         jButton3.setText("UPDATE RECORD");
 
+        createReport.setText("CREATE REPORT");
+        createReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createReportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -195,7 +205,8 @@ public class TableManagerTemplate extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton2)
                             .addComponent(jButton1)
-                            .addComponent(jButton3))))
+                            .addComponent(jButton3)
+                            .addComponent(createReport))))
                 .addGap(56, 56, 56)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -230,7 +241,9 @@ public class TableManagerTemplate extends javax.swing.JFrame {
                         .addComponent(jButton3)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2)
-                        .addGap(86, 86, 86))))
+                        .addGap(18, 18, 18)
+                        .addComponent(createReport)
+                        .addGap(45, 45, 45))))
         );
 
         pack();
@@ -245,8 +258,22 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void createReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createReportActionPerformed
+        try {
+            openSampleReportGenerator();
+        } catch (SQLException ex) {
+            Logger.getLogger(TableManagerTemplate.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_createReportActionPerformed
+
+    public void openSampleReportGenerator() throws SQLException {
+        SampleReportGenerator sp = new SampleReportGenerator(dbConnection);
+        sp.setVisible(true);
+        dispose();    
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton createReport;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
