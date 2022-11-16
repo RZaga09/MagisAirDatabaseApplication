@@ -32,8 +32,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
 
     /**
      * Creates a TableManagerTemplate instance
-     */
-    
+     */   
     public TableManagerTemplate(Connection dbConnection) throws SQLException {
         initComponents();
         this.dbConnection = dbConnection;
@@ -46,7 +45,6 @@ public class TableManagerTemplate extends javax.swing.JFrame {
      * 
      * @returns String[] holding the information inputted.
      */
-    
     public String[] getFormData() {
         /*
         dataInputs[0] authorid
@@ -90,9 +88,29 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     public void getAllRecords(){
         
     }
-    
-    public void getspecificRecord(){
-        
+    /**
+     * Attempts to retrieve a record with a specific primary key on the table.
+     * 
+     * @throws SQLException if record retrieval failed.
+     */
+    public void getRecord() throws SQLException {
+        try {
+            String[] dataInputs = getFormData();
+            String query = "SELECT * FROM " + tablename + " WHERE authorid = "
+                    + dataInputs[0];
+            Statement statement = dbConnection.createStatement();
+            ResultSet record = statement.executeQuery(query);
+            System.out.println("QUERY GENERATED: " + query);
+            record.next(); //pointer isn't pointed at first row so next() is needed
+            txtID.setText(String.valueOf(record.getInt(1)));
+            txtFirstName.setText(record.getString(2));
+            txtLastName.setText(record.getString(3));
+            txtAddress.setText(record.getString(4));
+            System.out.println("Record succesfully retrieved.");
+            
+        } catch (SQLException e){
+            System.out.println("Failed to retrieve record.");
+        }
     }
     
     /**
@@ -163,6 +181,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         btnUpdateRecord = new javax.swing.JButton();
         createReport = new javax.swing.JButton();
         txtID = new javax.swing.JTextField();
+        btnGetRecord = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -223,6 +242,13 @@ public class TableManagerTemplate extends javax.swing.JFrame {
 
         txtID.setText("jTextField1");
 
+        btnGetRecord.setText("GET RECORD");
+        btnGetRecord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGetRecordActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -233,14 +259,6 @@ public class TableManagerTemplate extends javax.swing.JFrame {
                         .addGap(17, 17, 17)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(jLabel2)
@@ -250,14 +268,24 @@ public class TableManagerTemplate extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtID)
-                                    .addComponent(txtFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)))))
+                                    .addComponent(txtFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel3)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(66, 66, 66)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnDeleteRecord)
                             .addComponent(btnAddRecord)
                             .addComponent(btnUpdateRecord)
-                            .addComponent(createReport))))
+                            .addComponent(createReport)
+                            .addComponent(btnGetRecord))))
                 .addGap(56, 56, 56)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -266,11 +294,8 @@ public class TableManagerTemplate extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(66, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -286,15 +311,18 @@ public class TableManagerTemplate extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
-                        .addGap(40, 40, 40)
-                        .addComponent(btnAddRecord)
+                        .addGap(22, 22, 22)
+                        .addComponent(btnGetRecord)
                         .addGap(18, 18, 18)
+                        .addComponent(btnAddRecord)
+                        .addGap(12, 12, 12)
                         .addComponent(btnUpdateRecord)
                         .addGap(18, 18, 18)
                         .addComponent(btnDeleteRecord)
                         .addGap(18, 18, 18)
-                        .addComponent(createReport)
-                        .addGap(45, 45, 45))))
+                        .addComponent(createReport))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28))
         );
 
         pack();
@@ -334,6 +362,16 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDeleteRecordActionPerformed
 
+    private void btnGetRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetRecordActionPerformed
+        // TODO add your handling code here:
+        try{
+            getRecord();
+        }
+        catch(SQLException e){
+            System.out.println("Failed to get record.");
+        }
+    }//GEN-LAST:event_btnGetRecordActionPerformed
+
     public void openSampleReportGenerator() throws SQLException {
         SampleReportGenerator sp = new SampleReportGenerator(dbConnection);
         sp.setVisible(true);
@@ -343,6 +381,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddRecord;
     private javax.swing.JButton btnDeleteRecord;
+    private javax.swing.JButton btnGetRecord;
     private javax.swing.JButton btnUpdateRecord;
     private javax.swing.JButton createReport;
     private javax.swing.JLabel jLabel1;
