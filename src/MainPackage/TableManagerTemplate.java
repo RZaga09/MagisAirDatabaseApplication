@@ -49,14 +49,14 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     
     public String[] getFormData() {
         /*
-        dataInputs[0] id
+        dataInputs[0] authorid
         dataInputs[1] firstName
         dataInputs[2] lastName
         dataInputs[3] address
         */
         
         String[] dataInputs = new String[dataInputsCount];
-        dataInputs[0] = '\u0022' + lblID.getText() + '\u0022';
+        dataInputs[0] = txtID.getText();
         dataInputs[1] = '\u0022' + txtFirstName.getText() + '\u0022';
         dataInputs[2] = '\u0022' + txtLastName.getText() + '\u0022';
         dataInputs[3] = '\u0022' + txtAddress.getText() + '\u0022';
@@ -64,7 +64,8 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     }
     
     /**
-     * Adds a record to the table this {@code TableManagerTemplate} manages
+     * Attempts to add a record to the table this {@code TableManagerTemplate}
+     * instance manages.
      * 
      * @throws SQLException if the record was not added to the database.
      */
@@ -76,7 +77,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
                     + ", " + dataInputs[3] + ")";
             String query = "INSERT INTO " + tablename + "(firstname, lastname, "
                     + "address) " + valuesList + ";";
-            System.out.println(query);
+            System.out.println("QUERY GENERATED: " + query);
             Statement statement = dbConnection.createStatement();
             int temp = statement.executeUpdate(query);
             System.out.println("Record added successfully");
@@ -94,8 +95,19 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         
     }
     
-    public void updateRecord(){
-        
+    public void updateRecord()throws SQLException {
+        try {
+            String[] dataInputs = getFormData();
+            String query = "UPDATE " + tablename + " SET firstname = " + dataInputs[1]
+                + ", lastname = " + dataInputs[2] + ", address = "  + dataInputs[3]
+                + " WHERE authorid = " + Integer.parseInt(dataInputs[0]);
+            System.out.println("QUERY GENERATED: " + query);
+            Statement statement = dbConnection.createStatement();
+            int temp = statement.executeUpdate(query);
+            System.out.println("Record updated."); 
+        } catch (SQLException e){
+            System.out.println("Record update failed.");
+        }
     }
     
     public void deleteRecord(){
@@ -120,11 +132,11 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        lblID = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         createReport = new javax.swing.JButton();
+        txtID = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -155,8 +167,6 @@ public class TableManagerTemplate extends javax.swing.JFrame {
 
         jLabel4.setText("Address");
 
-        lblID.setText("##########");
-
         jButton1.setText("ADD RECORD");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -167,6 +177,11 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         jButton2.setText("DELETE RECORD");
 
         jButton3.setText("UPDATE RECORD");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         createReport.setText("CREATE REPORT");
         createReport.addActionListener(new java.awt.event.ActionListener() {
@@ -174,6 +189,8 @@ public class TableManagerTemplate extends javax.swing.JFrame {
                 createReportActionPerformed(evt);
             }
         });
+
+        txtID.setText("jTextField1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -189,17 +206,20 @@ public class TableManagerTemplate extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(txtLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblID, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(18, 18, 18))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(18, 18, 18)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtID)
+                                    .addComponent(txtFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(66, 66, 66)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,7 +242,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(lblID))
+                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -266,6 +286,15 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_createReportActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+            updateRecord();
+        } catch (SQLException e)
+            {
+                System.out.println("Update record failed");
+            }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     public void openSampleReportGenerator() throws SQLException {
         SampleReportGenerator sp = new SampleReportGenerator(dbConnection);
         sp.setVisible(true);
@@ -283,9 +312,9 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JLabel lblID;
     private javax.swing.JTextField txtAddress;
     private javax.swing.JTextField txtFirstName;
+    private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtLastName;
     // End of variables declaration//GEN-END:variables
 }
