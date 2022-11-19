@@ -122,7 +122,7 @@
     <Component class="javax.swing.JTextField" name="NameField">
       <Properties>
         <Property name="horizontalAlignment" type="int" value="2"/>
-        <Property name="text" type="java.lang.String" value="booksdb"/>
+        <Property name="text" type="java.lang.String" value="flightsdb"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">

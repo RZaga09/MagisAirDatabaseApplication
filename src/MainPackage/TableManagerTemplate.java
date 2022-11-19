@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
 
 /**
  * <p> {@code TableManagerTemplate} provides a flexible template for other classes
@@ -27,17 +28,18 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     // DO NOT FORGET TO MODIFY THESE VARIABLES BEFORE MODIFYING THE REST OF THE
     // PROGRAM
     Connection dbConnection;
-    String tablename = "author"; //table being managed
+    String tablename; //table being managed
     int dataInputsCount = 4; //how many inputs there are in the form
+    String id_name = "authorid";
    
 
     /**
      * Creates a TableManagerTemplate instance
      */   
     public TableManagerTemplate(Connection dbConnection) throws SQLException {
-        initComponents();
+        //initComponents();
         this.dbConnection = dbConnection;
-        getAllRecords();
+        //getAllRecords();
     }
     
      /**
@@ -60,6 +62,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         dataInputs[1] = '\u0022' + txtFirstName.getText() + '\u0022';
         dataInputs[2] = '\u0022' + txtLastName.getText() + '\u0022';
         dataInputs[3] = '\u0022' + txtAddress.getText() + '\u0022';
+        
         return dataInputs;
     }
     
@@ -73,38 +76,34 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     public void addRecord()throws SQLException{
         try {
             String[] dataInputs = getFormData();
-            String valuesList = "VALUES(" + dataInputs[1] + ", " + dataInputs[2]
-                    + ", " + dataInputs[3] + ")";
-            String query = "INSERT INTO " + tablename + "(firstname, lastname, "
-                    + "address) " + valuesList + ";";
+            System.out.println(dataInputs);
+            String query = setAddQuery(dataInputs);
             System.out.println("QUERY GENERATED: " + query);
             Statement statement = dbConnection.createStatement();
             int temp = statement.executeUpdate(query);
             System.out.println("Record added successfully");
-            refreshRecordsList();
+            getAllRecords();
         }
         catch (SQLException e) {
             System.out.println("Failed to add record");
         }
     }
     
+    public String setAddQuery(String[] dataInputs) {
+        String valuesList = "VALUES(" + dataInputs[1] + ", " + dataInputs[2]
+                    + ", " + dataInputs[3] + ")";
+        String query = "INSERT INTO " + tablename + "(firstname, lastname, "
+                    + "address) " + valuesList + ";";
+        return query;
+    }
+    
     public void getAllRecords()throws SQLException {
         try{
-            String query = "SELECT * FROM " + tablename;
+            String query = setRecordsQuery();
             Statement statement = dbConnection.createStatement();
             ResultSet recordsList = statement.executeQuery(query);
-            DefaultTableModel table = (DefaultTableModel)tblRecordsList.getModel();
             
-            while(recordsList.next())
-            {
-                String[] row = {
-                    String.valueOf(recordsList.getInt(1)),
-                    recordsList.getString(2),
-                    recordsList.getString(3),
-                    recordsList.getString(4)
-                };
-                table.addRow(row);
-            }
+            writeRecordsToTable(tblRecordsList, recordsList);
             
             System.out.println("Records from data base retrieved.");
         } catch (SQLException e){
@@ -112,17 +111,24 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         }
     }
     
-    public void refreshRecordsList() throws SQLException {
-        try
-        {
-            tblRecordsList.setModel(new DefaultTableModel(null, new String[]{"authorid", "FirstName", "LastName", "Address"}));
-            getAllRecords();
-            System.out.println("Table refresh success");
-        } catch (SQLException e)
-        {
-            System.out.println("Failed to refresh table.");
-        }
-
+    public String setRecordsQuery() {
+        String query = "SELECT * FROM " + tablename;
+        return query;
+    }
+    
+    public void writeRecordsToTable(JTable tbl, ResultSet rs) throws SQLException {
+        DefaultTableModel table = (DefaultTableModel)tblRecordsList.getModel();
+        table.setRowCount(0);
+        while(rs.next())
+            {
+                String[] row = {
+                    String.valueOf(rs.getInt(1)),
+                    rs.getString(2),
+                    rs.getString(3),
+                    rs.getString(4)
+                };
+                table.addRow(row);
+            }
     }
     
     /**
@@ -159,18 +165,23 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     public void updateRecord()throws SQLException {
         try {
             String[] dataInputs = getFormData();
-            String query = "UPDATE " + tablename + " SET firstname = " + dataInputs[1]
-                + ", lastname = " + dataInputs[2] + ", address = "  + dataInputs[3]
-                + " WHERE authorid = " + Integer.parseInt(dataInputs[0]);
+            String query = setUpdateQuery(dataInputs);
             System.out.println("QUERY GENERATED: " + query);
             Statement statement = dbConnection.createStatement();
             int temp = statement.executeUpdate(query);
             System.out.println("Record updated."); 
-            refreshRecordsList();
+            getAllRecords();
         }
         catch (SQLException e){
             System.out.println("Record update failed.");
         }
+    }
+    
+    public String setUpdateQuery(String[] dataInputs) {
+        String query = "UPDATE " + tablename + " SET firstname = " + dataInputs[1]
+                + ", lastname = " + dataInputs[2] + ", address = "  + dataInputs[3]
+                + " WHERE authorid = " + Integer.parseInt(dataInputs[0]);
+        return query;
     }
     
     /**
@@ -184,13 +195,13 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     public void deleteRecord() throws SQLException {
         try {
             String[] dataInputs = getFormData();
-            String query = "DELETE FROM "  + tablename + " WHERE authorid = " + 
+            String query = "DELETE FROM "  + tablename + " WHERE " + id_name + "= " + 
                     dataInputs[0];
             System.out.println("QUERY GENERATED: " + query);
             Statement statement = dbConnection.createStatement();
             int temp = statement.executeUpdate(query);
             System.out.println("Delete record successful");
-            refreshRecordsList();
+            getAllRecords();
         } catch (SQLException e) {
             System.out.println("Delete record failed.");
         }

@@ -25,36 +25,28 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="jLabel1" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="-2" pref="180" max="-2" attributes="0"/>
-                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                      <Component id="entityDropDown" min="-2" pref="120" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                  </Group>
-              </Group>
+              <Component id="jLabel1" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace pref="85" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="addDataButton" min="-2" pref="120" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
-                      <Component id="deleteDataButton" min="-2" pref="120" max="-2" attributes="0"/>
+                  <Component id="cityButton" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+                  <Component id="passengerButton" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="stopoverButton" min="-2" pref="120" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
-                      <Component id="editDataButton" min="-2" pref="120" max="-2" attributes="0"/>
+                      <Component id="flightButton" min="-2" pref="120" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
-                      <Component id="showDataButton" min="-2" pref="120" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                      <Component id="reportDataButton" min="-2" pref="120" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="luggageButton" min="-2" pref="120" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="crewButton" min="-2" pref="120" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="reportButton" min="-2" pref="120" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="83" max="-2" attributes="0"/>
           </Group>
@@ -65,23 +57,21 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="entityDropDown" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="addDataButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                  <Component id="deleteDataButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                  <Component id="editDataButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                  <Component id="cityButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                  <Component id="stopoverButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                  <Component id="flightButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="showDataButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                  <Component id="reportDataButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                  <Component id="passengerButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                  <Component id="luggageButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                  <Component id="crewButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="108" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+              <Component id="reportButton" min="-2" pref="35" max="-2" attributes="0"/>
+              <EmptySpace pref="30" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -96,60 +86,46 @@
         <Property name="text" type="java.lang.String" value="MAIN MENU"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="addDataButton">
+    <Component class="javax.swing.JButton" name="cityButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="ADD DATA"/>
+        <Property name="text" type="java.lang.String" value="CITY"/>
         <Property name="name" type="java.lang.String" value="" noResource="true"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addDataButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cityButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="deleteDataButton">
+    <Component class="javax.swing.JButton" name="stopoverButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="DELETE DATA"/>
+        <Property name="text" type="java.lang.String" value="STOPOVER"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteDataButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stopoverButtonActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="editDataButton">
+    <Component class="javax.swing.JButton" name="flightButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="EDIT DATA"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editDataButtonActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="showDataButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="SEE DATA"/>
+        <Property name="text" type="java.lang.String" value="FLIGHT"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="reportDataButton">
+    <Component class="javax.swing.JButton" name="passengerButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="PASSENGER"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="luggageButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="LUGGAGE"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="crewButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="CREW"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="reportButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="REPORT"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="entityDropDown">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="5">
-            <StringItem index="0" value="Flight"/>
-            <StringItem index="1" value="City"/>
-            <StringItem index="2" value="Passenger"/>
-            <StringItem index="3" value="Luggage"/>
-            <StringItem index="4" value="Crew"/>
-          </StringArray>
-        </Property>
-      </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Entity to Operate On"/>
       </Properties>
     </Component>
   </SubComponents>

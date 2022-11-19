@@ -43,13 +43,13 @@ public class MainMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        addDataButton = new javax.swing.JButton();
-        deleteDataButton = new javax.swing.JButton();
-        editDataButton = new javax.swing.JButton();
-        showDataButton = new javax.swing.JButton();
-        reportDataButton = new javax.swing.JButton();
-        entityDropDown = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
+        cityButton = new javax.swing.JButton();
+        stopoverButton = new javax.swing.JButton();
+        flightButton = new javax.swing.JButton();
+        passengerButton = new javax.swing.JButton();
+        luggageButton = new javax.swing.JButton();
+        crewButton = new javax.swing.JButton();
+        reportButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,35 +57,30 @@ public class MainMenu extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("MAIN MENU");
 
-        addDataButton.setText("ADD DATA");
-        addDataButton.setName(""); // NOI18N
-        addDataButton.addActionListener(new java.awt.event.ActionListener() {
+        cityButton.setText("CITY");
+        cityButton.setName(""); // NOI18N
+        cityButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addDataButtonActionPerformed(evt);
+                cityButtonActionPerformed(evt);
             }
         });
 
-        deleteDataButton.setText("DELETE DATA");
-        deleteDataButton.addActionListener(new java.awt.event.ActionListener() {
+        stopoverButton.setText("STOPOVER");
+        stopoverButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteDataButtonActionPerformed(evt);
+                stopoverButtonActionPerformed(evt);
             }
         });
 
-        editDataButton.setText("EDIT DATA");
-        editDataButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editDataButtonActionPerformed(evt);
-            }
-        });
+        flightButton.setText("FLIGHT");
 
-        showDataButton.setText("SEE DATA");
+        passengerButton.setText("PASSENGER");
 
-        reportDataButton.setText("REPORT");
+        luggageButton.setText("LUGGAGE");
 
-        entityDropDown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Flight", "City", "Passenger", "Luggage", "Crew" }));
+        crewButton.setText("CREW");
 
-        jLabel2.setText("Entity to Operate On");
+        reportButton.setText("REPORT");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,30 +88,24 @@ public class MainMenu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(180, 180, 180)
-                        .addComponent(jLabel2)
-                        .addGap(29, 29, 29)
-                        .addComponent(entityDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(85, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cityButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passengerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(55, 55, 55)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(addDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(55, 55, 55)
-                        .addComponent(deleteDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(stopoverButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(57, 57, 57)
-                        .addComponent(editDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(flightButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addComponent(showDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
-                        .addComponent(reportDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(luggageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(crewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(reportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(83, 83, 83))
         );
         layout.setVerticalGroup(
@@ -124,73 +113,46 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(85, 85, 85)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(entityDropDown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cityButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stopoverButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(flightButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(showDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(reportDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(108, Short.MAX_VALUE))
+                    .addComponent(passengerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(luggageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(crewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(43, 43, 43)
+                .addComponent(reportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDataButtonActionPerformed
+    private void cityButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cityButtonActionPerformed
 
-        String entity = (String)entityDropDown.getSelectedItem();
-        if ("Flight".equals(entity)) {
-            new AddDataFlight().openFrame(dbConnection);
-        } else if ("City".equals(entity)) {
-            new AddDataCity().openFrame(dbConnection);
-        } else if ("Crew".equals(entity)) {
-            new AddDataCrew().openFrame(dbConnection);
-        } else if ("Luggage".equals(entity)) {
-            new AddDataLuggage().openFrame(dbConnection);
-        } else if ("Passenger".equals(entity)) {
-            new AddDataPassenger().openFrame(dbConnection);
-        }
-        this.dispose();
-    }//GEN-LAST:event_addDataButtonActionPerformed
+        try {
+            CityTableManager tm = new CityTableManager(dbConnection);
+            tm.setVisible(true);
+            dispose();
+        } 
+        catch (SQLException e){
+            System.out.println("TableManager failed to load.");
+        }  
+    }//GEN-LAST:event_cityButtonActionPerformed
 
-    private void deleteDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDataButtonActionPerformed
-        String entity = (String)entityDropDown.getSelectedItem();
-        if ("Flight".equals(entity)) {
-            new DeleteDataFlight().openFrame(dbConnection);
-        } else if ("City".equals(entity)) {
-            new DeleteDataCity().openFrame(dbConnection);
-        } else if ("Crew".equals(entity)) {
-            new DeleteDataCrew().openFrame(dbConnection);
-        } else if ("Luggage".equals(entity)) {
-            new DeleteDataLuggage().openFrame(dbConnection);
-        } else if ("Passenger".equals(entity)) {
-            new DeleteDataPassenger().openFrame(dbConnection);
-        }
-        this.dispose();
-    }//GEN-LAST:event_deleteDataButtonActionPerformed
-
-    private void editDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editDataButtonActionPerformed
-        String entity = (String)entityDropDown.getSelectedItem();
-        if ("Flight".equals(entity)) {
-            new EditDataFlight().openFrame(dbConnection);
-        } else if ("City".equals(entity)) {
-            new EditDataCity().openFrame(dbConnection);
-        } else if ("Crew".equals(entity)) {
-            new EditDataCrew().openFrame(dbConnection);
-        } else if ("Luggage".equals(entity)) {
-            new EditDataLuggage().openFrame(dbConnection);
-        } else if ("Passenger".equals(entity)) {
-            new EditDataPassenger().openFrame(dbConnection);
-        }
-        this.dispose();
-    }//GEN-LAST:event_editDataButtonActionPerformed
+    private void stopoverButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stopoverButtonActionPerformed
+        try {
+            StopoverTableManager tm = new StopoverTableManager(dbConnection);
+            tm.setVisible(true);
+            dispose();
+        } 
+        catch (SQLException e){
+            System.out.println("TableManager failed to load.");
+        }  
+    }//GEN-LAST:event_stopoverButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -228,13 +190,13 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addDataButton;
-    private javax.swing.JButton deleteDataButton;
-    private javax.swing.JButton editDataButton;
-    private javax.swing.JComboBox<String> entityDropDown;
+    private javax.swing.JButton cityButton;
+    private javax.swing.JButton crewButton;
+    private javax.swing.JButton flightButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JButton reportDataButton;
-    private javax.swing.JButton showDataButton;
+    private javax.swing.JButton luggageButton;
+    private javax.swing.JButton passengerButton;
+    private javax.swing.JButton reportButton;
+    private javax.swing.JButton stopoverButton;
     // End of variables declaration//GEN-END:variables
 }

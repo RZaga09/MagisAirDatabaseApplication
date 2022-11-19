@@ -88,14 +88,13 @@ public class LoginPage extends javax.swing.JFrame {
     
     public void openTableManager() throws SQLException
     {
-        try {
-            TableManagerTemplate tm = new TableManagerTemplate(dbConnection);
-            tm.setVisible(true);
-            dispose();
-        } 
-        catch (SQLException e){
-            System.out.println("TableManager failed to load.");
-        }    
+        //TableManagerTemplate tm = new TableManagerTemplate(dbConnection);
+        //CityTableManager tm = new CityTableManager(dbConnection);
+        //StopoverTableManager tm = new StopoverTableManager(dbConnection);
+        MainMenu tm = new MainMenu();
+        tm.dbConnection = this.dbConnection;
+        tm.setVisible(true);
+        dispose();    
     }
     
     // AUTO-GENERATED GUI CODE
@@ -129,7 +128,7 @@ public class LoginPage extends javax.swing.JFrame {
         jLabel2.setText("Database Name");
 
         NameField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        NameField.setText("booksdb");
+        NameField.setText("flightsdb");
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel3.setText("Port Number");
