@@ -73,12 +73,32 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         flightButton.setText("FLIGHT");
+        flightButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                flightButtonActionPerformed(evt);
+            }
+        });
 
         passengerButton.setText("PASSENGER");
+        passengerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passengerButtonActionPerformed(evt);
+            }
+        });
 
         luggageButton.setText("LUGGAGE");
+        luggageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                luggageButtonActionPerformed(evt);
+            }
+        });
 
         crewButton.setText("CREW");
+        crewButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crewButtonActionPerformed(evt);
+            }
+        });
 
         reportButton.setText("REPORT");
 
@@ -153,6 +173,50 @@ public class MainMenu extends javax.swing.JFrame {
             System.out.println("TableManager failed to load.");
         }  
     }//GEN-LAST:event_stopoverButtonActionPerformed
+
+    private void flightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_flightButtonActionPerformed
+        try {
+            FlightTableManager tm = new FlightTableManager(dbConnection);
+            tm.setVisible(true);
+            dispose();
+        } 
+        catch (SQLException e){
+            System.out.println("TableManager failed to load.");
+        }  
+    }//GEN-LAST:event_flightButtonActionPerformed
+
+    private void passengerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passengerButtonActionPerformed
+        try {
+            PassengerTableManager tm = new PassengerTableManager(dbConnection);
+            tm.setVisible(true);
+            dispose();
+        } 
+        catch (SQLException e){
+            System.out.println("TableManager failed to load.");
+        }  
+    }//GEN-LAST:event_passengerButtonActionPerformed
+
+    private void luggageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_luggageButtonActionPerformed
+        try {
+            LuggageTableManager tm = new LuggageTableManager(dbConnection);
+            tm.setVisible(true);
+            dispose();
+        } 
+        catch (SQLException e){
+            System.out.println("TableManager failed to load.");
+        }  
+    }//GEN-LAST:event_luggageButtonActionPerformed
+
+    private void crewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crewButtonActionPerformed
+        try {
+            CrewTableManager tm = new CrewTableManager(dbConnection);
+            tm.setVisible(true);
+            dispose();
+        } 
+        catch (SQLException e){
+            System.out.println("TableManager failed to load.");
+        }  
+    }//GEN-LAST:event_crewButtonActionPerformed
 
     /**
      * @param args the command line arguments

@@ -107,21 +107,33 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="FLIGHT"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="flightButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="passengerButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="PASSENGER"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="passengerButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="luggageButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="LUGGAGE"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="luggageButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="crewButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="CREW"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="crewButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="reportButton">
       <Properties>

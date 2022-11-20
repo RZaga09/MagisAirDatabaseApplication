@@ -28,6 +28,7 @@ public class StopoverTableManager extends TableManagerTemplate {
         initComponents();
         getAllRecords();
         id_name = "stopover_id";
+        fillDropDown();
     }
 
     @Override
@@ -35,7 +36,7 @@ public class StopoverTableManager extends TableManagerTemplate {
         DefaultTableModel table = (DefaultTableModel)tblRecordsList.getModel();
         table.setRowCount(0);
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
-        DateFormat timeFormat = new SimpleDateFormat("HH-mm-ss"); 
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss"); 
         while(rs.next())
             {
                 String[] row = {
@@ -53,7 +54,7 @@ public class StopoverTableManager extends TableManagerTemplate {
     
     @Override
     public String setRecordsQuery() {
-        String query = "SELECT stopover.*, city.city_name FROM stopover LEFT JOIN city ON stopover.stopover_city = city.city_id";
+        String query = "SELECT stopover.*, city.city_name FROM stopover LEFT JOIN city ON stopover.stopover_city = city.city_id ORDER BY stopover.stopover_id";
         return query;
     }
     
@@ -85,9 +86,19 @@ public class StopoverTableManager extends TableManagerTemplate {
         dataInputs[0] = txtID.getText();
         dataInputs[1] = '\u0022' + txtDate.getText() + '\u0022';
         dataInputs[2] = '\u0022' + txtTime.getText() + '\u0022';
-        dataInputs[3] = txtCity.getText();
+        dataInputs[3] = (String)txtCity.getSelectedItem();
         
         return dataInputs;
+    }
+    
+    private void fillDropDown() throws SQLException {
+        String query = "SELECT city_id from city ORDER BY city_id";
+        Statement statement = dbConnection.createStatement();
+        ResultSet rs = statement.executeQuery(query);
+        
+        while(rs.next()) {
+            txtCity.addItem(rs.getString("city_id"));
+        }
     }
     
     
@@ -106,15 +117,15 @@ public class StopoverTableManager extends TableManagerTemplate {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblRecordsList = new javax.swing.JTable();
         btnUpdateRecord = new javax.swing.JButton();
-        createReport = new javax.swing.JButton();
         txtID = new javax.swing.JTextField();
         btnGetRecord = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtDate = new javax.swing.JTextField();
         txtTime = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtCity = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        mainMenu = new javax.swing.JButton();
+        txtCity = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -166,14 +177,7 @@ public class StopoverTableManager extends TableManagerTemplate {
             }
         });
 
-        createReport.setText("CREATE REPORT");
-        createReport.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createReportActionPerformed(evt);
-            }
-        });
-
-        txtID.setText("jTextField1");
+        txtID.setText("9999");
 
         btnGetRecord.setText("GET RECORD");
         btnGetRecord.addActionListener(new java.awt.event.ActionListener() {
@@ -184,15 +188,20 @@ public class StopoverTableManager extends TableManagerTemplate {
 
         jLabel1.setText("Stopover ID");
 
-        txtDate.setText("jTextField1");
+        txtDate.setText("2022-01-01");
 
-        txtTime.setText("jTextField1");
+        txtTime.setText("01:00:00");
 
         jLabel3.setText("Time (hh:mm:ss)");
 
-        txtCity.setText("jTextField1");
-
         jLabel4.setText("City ID");
+
+        mainMenu.setText("Back to Main Menu");
+        mainMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mainMenuActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -206,8 +215,10 @@ public class StopoverTableManager extends TableManagerTemplate {
                             .addComponent(btnDeleteRecord)
                             .addComponent(btnAddRecord)
                             .addComponent(btnUpdateRecord)
-                            .addComponent(createReport)
                             .addComponent(btnGetRecord)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(mainMenu))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,8 +228,8 @@ public class StopoverTableManager extends TableManagerTemplate {
                             .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCity, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                            .addComponent(txtTime)
+                            .addComponent(txtCity, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtTime, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
                             .addComponent(txtDate)
                             .addComponent(txtID))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -229,8 +240,10 @@ public class StopoverTableManager extends TableManagerTemplate {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(mainMenu)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -246,7 +259,7 @@ public class StopoverTableManager extends TableManagerTemplate {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(txtCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(44, 44, 44)
+                        .addGap(41, 41, 41)
                         .addComponent(btnGetRecord)
                         .addGap(18, 18, 18)
                         .addComponent(btnAddRecord)
@@ -254,8 +267,7 @@ public class StopoverTableManager extends TableManagerTemplate {
                         .addComponent(btnUpdateRecord)
                         .addGap(18, 18, 18)
                         .addComponent(btnDeleteRecord)
-                        .addGap(18, 18, 18)
-                        .addComponent(createReport))
+                        .addGap(41, 41, 41))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28))
         );
@@ -289,14 +301,6 @@ public class StopoverTableManager extends TableManagerTemplate {
         }
     }//GEN-LAST:event_btnUpdateRecordActionPerformed
 
-    private void createReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createReportActionPerformed
-        try {
-            openSampleReportGenerator();
-        } catch (SQLException ex) {
-            Logger.getLogger(TableManagerTemplate.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_createReportActionPerformed
-
     private void btnGetRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetRecordActionPerformed
         // TODO add your handling code here:
         try{
@@ -307,20 +311,27 @@ public class StopoverTableManager extends TableManagerTemplate {
         }
     }//GEN-LAST:event_btnGetRecordActionPerformed
 
+    private void mainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainMenuActionPerformed
+        MainMenu tm = new MainMenu();
+        tm.dbConnection = this.dbConnection;
+        tm.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_mainMenuActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddRecord;
     private javax.swing.JButton btnDeleteRecord;
     private javax.swing.JButton btnGetRecord;
     private javax.swing.JButton btnUpdateRecord;
-    private javax.swing.JButton createReport;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton mainMenu;
     private javax.swing.JTable tblRecordsList;
-    private javax.swing.JTextField txtCity;
+    private javax.swing.JComboBox<String> txtCity;
     private javax.swing.JTextField txtDate;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtTime;

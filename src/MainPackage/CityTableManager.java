@@ -43,6 +43,12 @@ public class CityTableManager extends TableManagerTemplate {
     }
     
     @Override
+    public String setRecordsQuery() {
+        String query = "SELECT * FROM " + tablename + " ORDER BY " + tablename + ".city_id";
+        return query;
+    }
+    
+    @Override
     public String setAddQuery(String[] dataInputs) {
         String valuesList = "VALUES(" + dataInputs[0] + ", " + dataInputs[1] + ")";
         String query = "INSERT INTO " + tablename + " " + valuesList + ";";
@@ -87,11 +93,11 @@ public class CityTableManager extends TableManagerTemplate {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblRecordsList = new javax.swing.JTable();
         btnUpdateRecord = new javax.swing.JButton();
-        createReport = new javax.swing.JButton();
         txtName = new javax.swing.JTextField();
         btnGetRecord = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
+        mainMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -143,14 +149,7 @@ public class CityTableManager extends TableManagerTemplate {
             }
         });
 
-        createReport.setText("CREATE REPORT");
-        createReport.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createReportActionPerformed(evt);
-            }
-        });
-
-        txtName.setText("jTextField1");
+        txtName.setText("City Name");
 
         btnGetRecord.setText("GET RECORD");
         btnGetRecord.addActionListener(new java.awt.event.ActionListener() {
@@ -161,7 +160,14 @@ public class CityTableManager extends TableManagerTemplate {
 
         jLabel1.setText("ID");
 
-        txtID.setText("jTextField1");
+        txtID.setText("66666");
+
+        mainMenu.setText("Back to Main Menu");
+        mainMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mainMenuActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -175,10 +181,12 @@ public class CityTableManager extends TableManagerTemplate {
                             .addComponent(btnDeleteRecord)
                             .addComponent(btnAddRecord)
                             .addComponent(btnUpdateRecord)
-                            .addComponent(createReport)
                             .addComponent(btnGetRecord)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addContainerGap()
+                        .addComponent(mainMenu))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(jLabel2)
@@ -187,18 +195,20 @@ public class CityTableManager extends TableManagerTemplate {
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtName, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                            .addComponent(txtID))))
-                .addGap(18, 18, 18)
+                            .addComponent(txtName)
+                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(42, 42, 42)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(mainMenu)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -206,7 +216,7 @@ public class CityTableManager extends TableManagerTemplate {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
-                        .addGap(127, 127, 127)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnGetRecord)
                         .addGap(18, 18, 18)
                         .addComponent(btnAddRecord)
@@ -214,8 +224,7 @@ public class CityTableManager extends TableManagerTemplate {
                         .addComponent(btnUpdateRecord)
                         .addGap(18, 18, 18)
                         .addComponent(btnDeleteRecord)
-                        .addGap(18, 18, 18)
-                        .addComponent(createReport))
+                        .addGap(41, 41, 41))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28))
         );
@@ -249,14 +258,6 @@ public class CityTableManager extends TableManagerTemplate {
         }
     }//GEN-LAST:event_btnUpdateRecordActionPerformed
 
-    private void createReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createReportActionPerformed
-        try {
-            openSampleReportGenerator();
-        } catch (SQLException ex) {
-            Logger.getLogger(TableManagerTemplate.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_createReportActionPerformed
-
     private void btnGetRecordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGetRecordActionPerformed
         // TODO add your handling code here:
         try{
@@ -267,16 +268,23 @@ public class CityTableManager extends TableManagerTemplate {
         }
     }//GEN-LAST:event_btnGetRecordActionPerformed
 
+    private void mainMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mainMenuActionPerformed
+        MainMenu tm = new MainMenu();
+        tm.dbConnection = this.dbConnection;
+        tm.setVisible(true);
+        dispose();   
+    }//GEN-LAST:event_mainMenuActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddRecord;
     private javax.swing.JButton btnDeleteRecord;
     private javax.swing.JButton btnGetRecord;
     private javax.swing.JButton btnUpdateRecord;
-    private javax.swing.JButton createReport;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton mainMenu;
     private javax.swing.JTable tblRecordsList;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtName;
