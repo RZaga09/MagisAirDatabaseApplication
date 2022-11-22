@@ -17,7 +17,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;  
 /**
  *
- * @author Rac
+ * @author Rac Elizaga
+ * @author Ray Rafael Abenido
  */
 public class StopoverTableManager extends TableManagerTemplate {
 
@@ -53,7 +54,7 @@ public class StopoverTableManager extends TableManagerTemplate {
     }
     
     @Override
-    public String setRecordsQuery() {
+    public String setGetAllRecordsQuery() {
         String query = "SELECT stopover.*, city.city_name FROM stopover LEFT JOIN city ON stopover.stopover_city = city.city_id ORDER BY stopover.stopover_id";
         return query;
     }
@@ -73,6 +74,15 @@ public class StopoverTableManager extends TableManagerTemplate {
                 + ", stopover_city = " + dataInputs[3]
                 + " WHERE stopover_id = " + Integer.parseInt(dataInputs[0]);
         return query;
+    }
+    
+    @Override
+    public void displayRecord(ResultSet result) throws SQLException{
+        result.next();
+        txtID.setText(String.valueOf(result.getInt(1)));
+        txtDate.setText(result.getString(2));
+        txtTime.setText(result.getString(3));
+        txtCity.setSelectedItem(String.valueOf(result.getString(4)));
     }
     
     @Override

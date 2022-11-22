@@ -17,7 +17,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;  
 /**
  *
- * @author Rac
+ * @author Rac Elizaga
+ * @author Ray Rafael Abenido
  */
 public class LuggageTableManager extends TableManagerTemplate {
 
@@ -53,8 +54,12 @@ public class LuggageTableManager extends TableManagerTemplate {
     }
     
     @Override
-    public String setRecordsQuery() {
-        String query = "select luggage.luggage_id, luggage.passenger_id, CONCAT(passenger.first_name, ' ', passenger.middle_initial, ' ', passenger.last_name), luggage.description, luggage.qty, luggage.luggage_cost from luggage, passenger where luggage.passenger_id = passenger.passenger_id order by luggage.luggage_id";
+    public String setGetAllRecordsQuery() {
+        String query = "select luggage.luggage_id, luggage.passenger_id, "
+                + "CONCAT(passenger.first_name, ' ', passenger.middle_initial, ' ', "
+                + "passenger.last_name), luggage.description, luggage.qty, luggage.luggage_cost "
+                + "from luggage, passenger where luggage.passenger_id = passenger.passenger_id order by "
+                + "luggage.luggage_id";
         return query;
     }
     
@@ -103,6 +108,17 @@ public class LuggageTableManager extends TableManagerTemplate {
         }
     }
     
+    @Override
+    public void displayRecord(ResultSet result) throws SQLException
+    {
+        result.next();
+        txtID.setText(String.valueOf(result.getInt(1)));
+        txtPassenger.setSelectedItem(String.valueOf(result.getInt(2)));
+        txtDescription.setText(result.getString(3));
+        txtQuantity.setText(String.valueOf(result.getInt(4)));
+        txtCost.setText(String.valueOf(result.getInt(5)));
+        
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.

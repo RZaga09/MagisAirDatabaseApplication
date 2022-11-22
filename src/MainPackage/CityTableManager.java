@@ -15,7 +15,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 /**
  *
- * @author Rac
+ * @author Rac Elizaga
+ * @author Ray Rafael Abenido
  */
 public class CityTableManager extends TableManagerTemplate {
 
@@ -43,7 +44,7 @@ public class CityTableManager extends TableManagerTemplate {
     }
     
     @Override
-    public String setRecordsQuery() {
+    public String setGetAllRecordsQuery() {
         String query = "SELECT * FROM " + tablename + " ORDER BY " + tablename + ".city_id";
         return query;
     }
@@ -77,6 +78,13 @@ public class CityTableManager extends TableManagerTemplate {
         return dataInputs;
     }
     
+    @Override
+    public void displayRecord(ResultSet result) throws SQLException
+    {
+        result.next();
+        txtID.setText(String.valueOf(result.getInt(1)));
+        txtName.setText(result.getString(2));
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
