@@ -20,15 +20,15 @@ import java.text.SimpleDateFormat;
  * @author Rac Elizaga
  * @author Ray Rafael Abenido
  */
-public class CrewTableManager extends TableManagerTemplate {
+public class TicketTableManager extends TableManagerTemplate {
 
-    public CrewTableManager(Connection dbConnection) throws SQLException{
+    public TicketTableManager(Connection dbConnection) throws SQLException{
         super(dbConnection);
-        tablename = "crew";
-        dataInputsCount = 5;
+        tablename = "flight_ticket";
+        dataInputsCount = 3;
         initComponents();
         getAllRecords();
-        id_name = "crew_id";
+        id_name = "ticket_id";
         fillDropDown();
     }
 
@@ -44,8 +44,11 @@ public class CrewTableManager extends TableManagerTemplate {
                     String.valueOf(rs.getInt(1)),
                     String.valueOf(rs.getInt(2)),
                     rs.getString(3),
-                    rs.getString(4),
+                    String.valueOf(rs.getInt(4)),
                     rs.getString(5),
+                    rs.getString(6),
+                    dateFormat.format(rs.getDate(7)),
+                    timeFormat.format(rs.getTime(8)),
                     
                 };
                 table.addRow(row);
@@ -54,41 +57,38 @@ public class CrewTableManager extends TableManagerTemplate {
     
     @Override
     public String setGetAllRecordsQuery() {
-        String query = "select * from crew order by crew_id";
+        String query = "select t.ticket_id, t.passenger_id, CONCAT(p.first_name , ' ' , p.middle_initial, ' ' , p.last_name), t.flight_id, c.city_name, d.city_name, f.departure_date, f.departure_time from flight_ticket t, passenger p, flight f, city c, city d where t.passenger_id = p.passenger_id and t.flight_id = f.flight_id and f.origin = c.city_id and f.destination = d.city_id order by t.ticket_id";
         return query;
     }
     
     @Override
     public String setAddQuery(String[] dataInputs) {
-        String valuesList = "VALUES(" + dataInputs[0] + ", " + dataInputs[1] + ", " + dataInputs[2] + ", " + dataInputs[3] + ", " + dataInputs[4] + ")";
+        String valuesList = "VALUES(" + dataInputs[0] + ", " + dataInputs[1] + ", " + dataInputs[2] + ")";
         String query = "INSERT INTO " + tablename + " " + valuesList + ";";
         return query;
     }
     
     @Override
     public String setUpdateQuery(String[] dataInputs) {
-        String query = "UPDATE " + tablename + " SET crew_id = " + dataInputs[0]
-                + ", flight_id = " + dataInputs[1]
-                + ", firstName = " + dataInputs[2]
-                + ", lastName = " + dataInputs[3]
-                + ", role = " + dataInputs[4]
-                + " WHERE crew_id = " + Integer.parseInt(dataInputs[0]);
+        String query = "UPDATE " + tablename + " SET ticket_id = " + dataInputs[0]
+                + ", passenger_id = " + dataInputs[1]
+                + ", flight_id = " + dataInputs[2]
+                + " WHERE ticket_id = " + Integer.parseInt(dataInputs[0]);
         return query;
     }
     
     @Override
     public String[] getFormData() {
         /*
-        dataInputs[0] city_id
-        dataInputs[1] city_name
+        dataInputs[0] ticket_id
+        dataInputs[1] passenger_id
+        dataInputs[2] flight_id
         */
         
         String[] dataInputs = new String[dataInputsCount];
         dataInputs[0] = txtID.getText();
-        dataInputs[1] = (String)txtFlight.getSelectedItem();
-        dataInputs[2] = '\u0022' + txtFirst.getText() + '\u0022';
-        dataInputs[3] = '\u0022' + txtLast.getText() + '\u0022';
-        dataInputs[4] = '\u0022' + txtRole.getText() + '\u0022';
+        dataInputs[1] = (String)txtPassenger.getSelectedItem();
+        dataInputs[2] = (String)txtFlight.getSelectedItem();
         
         return dataInputs;
     }
@@ -98,10 +98,8 @@ public class CrewTableManager extends TableManagerTemplate {
     {
         result.next();
         txtID.setText(String.valueOf(result.getInt(1)));
-        txtFlight.setSelectedItem(String.valueOf(result.getInt(2)));
-        txtFirst.setText(result.getString(3));
-        txtLast.setText(result.getString(4));
-        txtRole.setText(result.getString(5));
+        txtPassenger.setSelectedItem(String.valueOf(result.getInt(2)));
+        txtFlight.setSelectedItem(String.valueOf(result.getInt(3)));
     }
     
     private void fillDropDown() throws SQLException {
@@ -111,6 +109,14 @@ public class CrewTableManager extends TableManagerTemplate {
         
         while(rs.next()) {
             txtFlight.addItem(rs.getString("flight_id"));
+        }
+        
+        query = "SELECT passenger_id from passenger ORDER BY passenger_id";
+        statement = dbConnection.createStatement();
+        rs = statement.executeQuery(query);
+        
+        while(rs.next()) {
+            txtPassenger.addItem(rs.getString("passenger_id"));
         }
     }
     
@@ -130,17 +136,13 @@ public class CrewTableManager extends TableManagerTemplate {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblRecordsList = new javax.swing.JTable();
         btnUpdateRecord = new javax.swing.JButton();
-        txtID = new javax.swing.JTextField();
         btnGetRecord = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        txtLast = new javax.swing.JTextField();
-        txtFirst = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         mainMenu = new javax.swing.JButton();
         txtFlight = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
-        txtRole = new javax.swing.JTextField();
+        txtPassenger = new javax.swing.JComboBox<>();
+        txtID = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -165,14 +167,14 @@ public class CrewTableManager extends TableManagerTemplate {
 
             },
             new String [] {
-                "Crew ID", "Flight ID", "First Name", "Last Name", "Role"
+                "Ticket ID", "Passenger ID", "Name", "Flight ID", "Origin", "Destination", "Date", "Time"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -192,8 +194,6 @@ public class CrewTableManager extends TableManagerTemplate {
             }
         });
 
-        txtID.setText("222");
-
         btnGetRecord.setText("GET RECORD");
         btnGetRecord.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,15 +201,7 @@ public class CrewTableManager extends TableManagerTemplate {
             }
         });
 
-        jLabel1.setText("Crew ID");
-
-        txtLast.setText("Krabs");
-
-        txtFirst.setText("Eugene");
-
-        jLabel3.setText("First Name");
-
-        jLabel4.setText("Last Name");
+        jLabel1.setText("Passenger ID");
 
         mainMenu.setText("Back to Main Menu");
         mainMenu.addActionListener(new java.awt.event.ActionListener() {
@@ -218,9 +210,9 @@ public class CrewTableManager extends TableManagerTemplate {
             }
         });
 
-        jLabel5.setText("Role");
+        txtID.setText("1111");
 
-        txtRole.setText("Pilot");
+        jLabel3.setText("Ticket ID");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -240,56 +232,45 @@ public class CrewTableManager extends TableManagerTemplate {
                         .addComponent(mainMenu))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtFlight, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtFirst, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                            .addComponent(txtLast)
-                            .addComponent(txtID)))
+                        .addComponent(jLabel3)
+                        .addGap(38, 38, 38)
+                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(txtRole, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtFlight, 0, 144, Short.MAX_VALUE)
+                            .addComponent(txtPassenger, 0, 144, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(mainMenu)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(23, 23, 23)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtPassenger, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(txtFlight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(txtFirst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(txtLast, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnGetRecord)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAddRecord)
@@ -355,15 +336,11 @@ public class CrewTableManager extends TableManagerTemplate {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton mainMenu;
     private javax.swing.JTable tblRecordsList;
-    private javax.swing.JTextField txtFirst;
     private javax.swing.JComboBox<String> txtFlight;
     private javax.swing.JTextField txtID;
-    private javax.swing.JTextField txtLast;
-    private javax.swing.JTextField txtRole;
+    private javax.swing.JComboBox<String> txtPassenger;
     // End of variables declaration//GEN-END:variables
 }

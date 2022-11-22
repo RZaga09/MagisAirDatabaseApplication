@@ -42,13 +42,12 @@ public class PassengerTableManager extends TableManagerTemplate {
             {
                 String[] row = {
                     String.valueOf(rs.getInt(1)),
-                    String.valueOf(rs.getInt(2)),
+                    rs.getString(2),
                     rs.getString(3),
                     rs.getString(4),
-                    rs.getString(5),
-                    dateFormat.format(rs.getDate(6)),
-                    rs.getString(7)
-                    
+                    dateFormat.format(rs.getDate(5)),
+                    rs.getString(6),
+                    dateFormat.format(rs.getDate(7))
                     
                 };
                 table.addRow(row);
@@ -71,12 +70,12 @@ public class PassengerTableManager extends TableManagerTemplate {
     @Override
     public String setUpdateQuery(String[] dataInputs) {
         String query = "UPDATE " + tablename + " SET passenger_id = " + dataInputs[0]
-                + ", flight_id = " + dataInputs[1]
-                + ", first_name = " + dataInputs[2]
-                + ", middle_initial = " + dataInputs[3]
-                + ", last_name = " + dataInputs[4]
-                + ", birthday = " + dataInputs[5]
-                + ", gender = " + dataInputs[6]
+                + ", first_name = " + dataInputs[1]
+                + ", middle_initial = " + dataInputs[2]
+                + ", last_name = " + dataInputs[3]
+                + ", birthday = " + dataInputs[4]
+                + ", gender = " + dataInputs[5]
+                + ", date_booked = " + dataInputs[6]
                 + " WHERE passenger_id = " + Integer.parseInt(dataInputs[0]);
         return query;
     }
@@ -90,12 +89,12 @@ public class PassengerTableManager extends TableManagerTemplate {
         
         String[] dataInputs = new String[dataInputsCount];
         dataInputs[0] = txtID.getText();
-        dataInputs[1] = (String)txtFlight.getSelectedItem();
-        dataInputs[2] = '\u0022' + txtFirst.getText() + '\u0022';
-        dataInputs[3] = '\u0022' + txtMiddle.getText() + '\u0022';
-        dataInputs[4] = '\u0022' + txtLast.getText() + '\u0022';
-        dataInputs[5] = '\u0022' + txtBirthday.getText() + '\u0022';
-        dataInputs[6] = '\u0022' + (String)txtGender.getSelectedItem() + '\u0022';
+        dataInputs[1] = '\u0022' + txtFirst.getText() + '\u0022';
+        dataInputs[2] = '\u0022' + txtMiddle.getText() + '\u0022';
+        dataInputs[3] = '\u0022' + txtLast.getText() + '\u0022';
+        dataInputs[4] = '\u0022' + txtBirthday.getText() + '\u0022';
+        dataInputs[5] = '\u0022' + (String)txtGender.getSelectedItem() + '\u0022';
+        dataInputs[6] = '\u0022' + txtBooking.getText() + '\u0022';
         
         return dataInputs;
     }
@@ -105,23 +104,17 @@ public class PassengerTableManager extends TableManagerTemplate {
     {
         result.next(); 
         txtID.setText(String.valueOf(result.getInt(1)));
-        txtFlight.setSelectedItem(String.valueOf(result.getString(2)));
-        txtFirst.setText(result.getString(3));
-        txtMiddle.setText(result.getString(4));
-        txtLast.setText(result.getString(5));
-        txtBirthday.setText(result.getString(6));
-        txtGender.setSelectedItem(result.getString(7));
+        txtFirst.setText(result.getString(2));
+        txtMiddle.setText(result.getString(3));
+        txtLast.setText(result.getString(4));
+        txtBirthday.setText(result.getString(5));
+        txtGender.setSelectedItem(result.getString(6));
+        txtBooking.setText(result.getString(7));
     }
     
     
     private void fillDropDown() throws SQLException {
-        String query = "SELECT flight_id from flight ORDER BY flight_id";
-        Statement statement = dbConnection.createStatement();
-        ResultSet rs = statement.executeQuery(query);
-        
-        while(rs.next()) {
-            txtFlight.addItem(rs.getString("flight_id"));
-        }
+        //
     }
     
     
@@ -136,7 +129,6 @@ public class PassengerTableManager extends TableManagerTemplate {
 
         txtTime2 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         btnAddRecord = new javax.swing.JButton();
         btnDeleteRecord = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -150,21 +142,20 @@ public class PassengerTableManager extends TableManagerTemplate {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         mainMenu = new javax.swing.JButton();
-        txtFlight = new javax.swing.JComboBox<>();
         txtLast = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtBirthday = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txtGender = new javax.swing.JComboBox<>();
+        jLabel9 = new javax.swing.JLabel();
+        txtBooking = new javax.swing.JTextField();
 
         txtTime2.setText("01:00:00");
 
         jLabel6.setText("Last Name");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel2.setText("Flight ID");
 
         btnAddRecord.setText("ADD RECORD");
         btnAddRecord.addActionListener(new java.awt.event.ActionListener() {
@@ -250,12 +241,16 @@ public class PassengerTableManager extends TableManagerTemplate {
 
         txtGender.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female" }));
 
+        jLabel9.setText("Date Booked (yyyy-mm-dd)");
+
+        txtBooking.setText("2022-01-01");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(mainMenu))
@@ -269,34 +264,24 @@ public class PassengerTableManager extends TableManagerTemplate {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtFlight, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtFirst, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtMiddle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtID, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtLast, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel7)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBirthday, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtGender, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtLast, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtBooking, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtBirthday, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtGender, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMiddle, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -305,18 +290,11 @@ public class PassengerTableManager extends TableManagerTemplate {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(mainMenu)
                         .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(txtFlight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -337,6 +315,10 @@ public class PassengerTableManager extends TableManagerTemplate {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtGender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(txtBooking, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnGetRecord)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -344,8 +326,9 @@ public class PassengerTableManager extends TableManagerTemplate {
                         .addGap(12, 12, 12)
                         .addComponent(btnUpdateRecord)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnDeleteRecord)
-                        .addGap(58, 58, 58))))
+                        .addComponent(btnDeleteRecord))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28))
         );
 
         pack();
@@ -401,19 +384,19 @@ public class PassengerTableManager extends TableManagerTemplate {
     private javax.swing.JButton btnGetRecord;
     private javax.swing.JButton btnUpdateRecord;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton mainMenu;
     private javax.swing.JTable tblRecordsList;
     private javax.swing.JTextField txtBirthday;
+    private javax.swing.JTextField txtBooking;
     private javax.swing.JTextField txtFirst;
-    private javax.swing.JComboBox<String> txtFlight;
     private javax.swing.JComboBox<String> txtGender;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtLast;
