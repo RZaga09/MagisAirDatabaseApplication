@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package MainPackage;
 
 import java.sql.DriverManager;
@@ -19,7 +15,8 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 /**
  *
- * @author Rac
+ * @author Rac Elizaga
+ * @author Ray Rafael Abenido
  */
 public class FlightTableManager extends TableManagerTemplate {
 
@@ -113,6 +110,19 @@ public class FlightTableManager extends TableManagerTemplate {
         dataInputs[8] = txtCost.getText();
         
         return dataInputs;
+    }
+    
+    public void displayRecord(ResultSet result) throws SQLException{
+        result.next();
+        txtID.setText(String.valueOf(result.getInt(1)));
+        txtOrigin.setSelectedItem(String.valueOf(result.getString(2)));
+        txtDestination.setSelectedItem(String.valueOf(result.getString(3)));
+        txtDepDate.setText(result.getString(4));
+        txtDepTime.setText(result.getString(5));
+        txtStopover.setSelectedItem(result.getString(6));
+        txtArrDate.setText(result.getString(7));
+        txtArrTime.setText(result.getString(8));
+        txtCost.setText(String.valueOf(result.getInt(9)));
     }
     
     private void fillDropDown() throws SQLException {

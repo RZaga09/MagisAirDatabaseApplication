@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 
 /**
  *
- * @author InfoNet
+ * @author Rac Elizaga
  */
 
 public class MainMenu extends javax.swing.JFrame {
@@ -98,6 +98,11 @@ public class MainMenu extends javax.swing.JFrame {
         });
 
         reportButton.setText("REPORT");
+        reportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reportButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -214,6 +219,17 @@ public class MainMenu extends javax.swing.JFrame {
             System.out.println("TableManager failed to load.");
         }  
     }//GEN-LAST:event_crewButtonActionPerformed
+
+    private void reportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportButtonActionPerformed
+        try {
+            SampleReportGenerator report = new SampleReportGenerator(dbConnection);
+            report.setVisible(true);
+            this.dispose();
+            
+        } catch (SQLException e) {
+            System.out.println("ReportGenerator failed to load");
+        }
+    }//GEN-LAST:event_reportButtonActionPerformed
 
     /**
      * @param args the command line arguments

@@ -17,7 +17,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;  
 /**
  *
- * @author Rac
+ * @author Rac Elizaga
+ * @author Ray Rafael Abenido
  */
 public class StopoverTableManager extends TableManagerTemplate {
 
@@ -73,6 +74,15 @@ public class StopoverTableManager extends TableManagerTemplate {
                 + ", stopover_city = " + dataInputs[3]
                 + " WHERE stopover_id = " + Integer.parseInt(dataInputs[0]);
         return query;
+    }
+    
+    @Override
+    public void displayRecord(ResultSet result) throws SQLException{
+        result.next();
+        txtID.setText(String.valueOf(result.getInt(1)));
+        txtDate.setText(result.getString(2));
+        txtTime.setText(result.getString(3));
+        txtCity.setSelectedItem(String.valueOf(result.getString(4)));
     }
     
     @Override

@@ -21,6 +21,7 @@ import javax.swing.JTable;
  * @since 1.0
  * @version 1.0
  * @author Ray Rafael Abenido
+ * @author Rac Elizaga
  */
 
 public class TableManagerTemplate extends javax.swing.JFrame {
@@ -93,7 +94,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
             getAllRecords();
         }
         catch (SQLException e) {
-            System.out.println("Failed to add record");
+            System.out.println("Failed to add record at addRecord()");
         }
     }
     
@@ -129,7 +130,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
             
             System.out.println("Records from data base retrieved.");
         } catch (SQLException e){
-            System.out.println("Failed to get records from table.");
+            System.out.println("Failed to get records from table at getAllRecords().");
         }
     }
     
@@ -147,7 +148,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         return query;
     }
    
-        /**
+    /**
      * Helper function to {@code getAllRecords()}. Writes the {@code ResultSet}
      * to the rows of the {@code JTable} passed into the parameter.
      * 
@@ -193,7 +194,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
             System.out.println("Record succesfully retrieved.");
             
         } catch (SQLException e){
-            System.out.println("Failed to retrieve record.");
+            System.out.println("Failed to retrieve record specified at getRecord().");
         }
     }
     
@@ -201,9 +202,11 @@ public class TableManagerTemplate extends javax.swing.JFrame {
      * A helper function that displays the retrieved results in {@code getRecord()}.
      * How the results are displayed vary depending from table to table.
      * 
-     * @param record a {@code ResultSet} containing the records retrieved from the
+     * @param record a containing the records retrieved from the
      * database
      * @throws SQLException if attempt to display results caused an error
+     * @implNote implementation of this method is to be overriden and tailored
+     * by each class extending {@code TableManagerTemplate} for their own use.
      */
     public void displayRecord(ResultSet record) throws SQLException{
         record.next(); //pointer isn't pointed at first row so next() is needed
@@ -233,7 +236,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
             getAllRecords();
         }
         catch (SQLException e){
-            System.out.println("Record update failed.");
+            System.out.println("Record update failed at updateRecord().");
         }
     }
     
@@ -277,7 +280,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
             System.out.println("Delete record successful");
             getAllRecords();
         } catch (SQLException e) {
-            System.out.println("Delete record failed.");
+            System.out.println("Delete record failed at deleteRecord().");
         }
         
     }
@@ -497,7 +500,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
             addRecord();
         }
         catch (Exception e) {
-            System.out.println("Failed to add record.");
+            System.out.println("Action failed");
         }
     }//GEN-LAST:event_btnAddRecordActionPerformed
 
@@ -514,7 +517,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
             updateRecord();
         } catch (SQLException e)
             {
-                System.out.println("Update record failed");
+                System.out.println("Action failed");
             }
     }//GEN-LAST:event_btnUpdateRecordActionPerformed
 
@@ -522,7 +525,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         try {
             deleteRecord();
         } catch (SQLException e) {
-            System.out.println("Delete record failed");
+            System.out.println("Action failed");
         }
     }//GEN-LAST:event_btnDeleteRecordActionPerformed
 
@@ -532,7 +535,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
             getRecord();
         }
         catch(SQLException e){
-            System.out.println("Failed to get record.");
+            System.out.println("Action failed");
         }
     }//GEN-LAST:event_btnGetRecordActionPerformed
 

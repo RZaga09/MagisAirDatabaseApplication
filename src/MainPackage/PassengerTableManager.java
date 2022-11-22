@@ -17,7 +17,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;  
 /**
  *
- * @author Rac
+ * @author Rac Elizaga
+ * @author Ray Rafael Abenido
  */
 public class PassengerTableManager extends TableManagerTemplate {
 
@@ -79,7 +80,7 @@ public class PassengerTableManager extends TableManagerTemplate {
                 + " WHERE passenger_id = " + Integer.parseInt(dataInputs[0]);
         return query;
     }
-    
+   
     @Override
     public String[] getFormData() {
         /*
@@ -98,6 +99,20 @@ public class PassengerTableManager extends TableManagerTemplate {
         
         return dataInputs;
     }
+    
+    @Override
+    public void displayRecord(ResultSet result) throws SQLException
+    {
+        result.next(); 
+        txtID.setText(String.valueOf(result.getInt(1)));
+        txtFlight.setSelectedItem(String.valueOf(result.getString(2)));
+        txtFirst.setText(result.getString(3));
+        txtMiddle.setText(result.getString(4));
+        txtLast.setText(result.getString(5));
+        txtBirthday.setText(result.getString(6));
+        txtGender.setSelectedItem(result.getString(7));
+    }
+    
     
     private void fillDropDown() throws SQLException {
         String query = "SELECT flight_id from flight ORDER BY flight_id";

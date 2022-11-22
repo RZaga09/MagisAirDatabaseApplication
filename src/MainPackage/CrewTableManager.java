@@ -17,7 +17,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;  
 /**
  *
- * @author Rac
+ * @author Rac Elizaga
+ * @author Ray Rafael Abenido
  */
 public class CrewTableManager extends TableManagerTemplate {
 
@@ -90,6 +91,17 @@ public class CrewTableManager extends TableManagerTemplate {
         dataInputs[4] = '\u0022' + txtRole.getText() + '\u0022';
         
         return dataInputs;
+    }
+    
+    @Override
+    public void displayRecord(ResultSet result) throws SQLException
+    {
+        result.next();
+        txtID.setText(String.valueOf(result.getInt(1)));
+        txtFlight.setSelectedItem(String.valueOf(result.getInt(2)));
+        txtFirst.setText(result.getString(3));
+        txtLast.setText(result.getString(4));
+        txtRole.setText(result.getString(5));
     }
     
     private void fillDropDown() throws SQLException {
