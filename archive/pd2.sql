@@ -33,16 +33,24 @@ CREATE TABLE flight (
 
 CREATE TABLE passenger (
     passenger_id INT NOT NULL PRIMARY KEY,
-    flight_id INT,
     first_name VARCHAR(15),
     middle_initial VARCHAR(15),
     last_name VARCHAR(15),
     birthday DATE,
     gender  VARCHAR(15),
+    date_booked DATE,
     CHECK
-        ( gender IN ( 'Male', 'Female')),
-    FOREIGN KEY (flight_id) REFERENCES flight(flight_id) ON DELETE CASCADE
+        ( gender IN ( 'Male', 'Female'))
 );
+
+CREATE TABLE flight_ticket (
+    ticket_id INT,
+    passenger_id INT,
+    flight_id INT,
+    FOREIGN KEY (flight_id) REFERENCES flight(flight_id) ON DELETE CASCADE,
+    FOREIGN KEY (passenger_id) REFERENCES passenger(passenger_id) ON DELETE CASCADE
+);
+
 
 CREATE TABLE luggage (
     luggage_id  INT NOT NULL PRIMARY KEY,
@@ -141,34 +149,67 @@ VALUES (2312, 4444, 3333, '2022-04-04', '9:10:00', 9887, '2022-04-05', '15:20:00
 
 
 INSERT INTO passenger
-VALUES (01, 2354, 'Rick', 'Paul','Astley', '1966-2-6', 'Male');
+VALUES (01, 'Rick', 'Paul','Astley', '1966-2-6', 'Male', '2022-01-22');
 
 INSERT INTO passenger
-VALUES (02, 1246, 'Quandale', 'Lingle','Dinglelingle', '2001-9-11', 'Male');
+VALUES (02, 'Quandale', 'Lingle','Dinglelingle', '2001-9-11', 'Male', '2021-05-17');
 
 INSERT INTO passenger
-VALUES (03, 9452, 'Sleve', 'Sheesh','Mcdichael', '1980-1-2', 'Female');
+VALUES (03, 'Sleve', 'Sheesh','Mcdichael', '1980-1-2', 'Female', '2022-04-02');
 
 INSERT INTO passenger
-VALUES (04, 5647, 'Onson', 'Deez','Sheemey', '1932-5-20', 'Female');
+VALUES (04, 'Onson', 'Deez','Sheemey', '1932-5-20', 'Female', '2021-12-24');
 
 INSERT INTO passenger
-VALUES (05, 1241, 'Darryl', 'Rac','Archideld', '2001-12-24', 'Male');
+VALUES (05, 'Darryl', 'Rac','Archideld', '2001-12-24', 'Male', '2021-11-29');
 
 INSERT INTO passenger
-VALUES (06, 1241, 'Anatoli', 'Ray','Smorin', '2000-9-16', 'Female');
+VALUES (06, 'Anatoli', 'Ray','Smorin', '2000-9-16', 'Female', '2021-10-21');
 
 INSERT INTO passenger
-VALUES (07, 5923, 'Rey', 'Marc','Mcsriff', '2002-7-2', 'Male');
+VALUES (07, 'Rey', 'Marc','Mcsriff', '2002-7-2', 'Male', '2022-03-25');
 
 INSERT INTO passenger
-VALUES (08, 7829, 'Glenallen', 'Alissandra','Mixon', '1999-1-9', 'Female');
+VALUES (08, 'Glenallen', 'Alissandra','Mixon', '1999-1-9', 'Female', '2022-05-20');
 
 INSERT INTO passenger
-VALUES (09, 4283, 'Mario', 'Super','Lugio', '1986-12-1', 'Male');
+VALUES (09, 'Mario', 'Super','Luigi', '1986-12-1', 'Male', '2022-02-28');
 
 INSERT INTO passenger
-VALUES (10, 1921, 'Amogus', 'Anthony','Imposter', '2019-8-21', 'Male');
+VALUES (10, 'Amogus', 'Anthony','Imposter', '2019-8-21', 'Male', '2022-03-15');
+
+
+
+INSERT INTO flight_ticket
+VALUES (1111, 01, 2354);
+
+INSERT INTO flight_ticket
+VALUES (2222, 02, 1246);
+
+INSERT INTO flight_ticket
+VALUES (3333, 03, 9452);
+
+INSERT INTO flight_ticket
+VALUES (4444, 04, 5647);
+
+INSERT INTO flight_ticket
+VALUES (5555, 05, 1241);
+
+INSERT INTO flight_ticket
+VALUES (6666, 06, 1241);
+
+INSERT INTO flight_ticket
+VALUES (7777, 07, 5923);
+
+INSERT INTO flight_ticket
+VALUES (8888, 08, 7829);
+
+INSERT INTO flight_ticket
+VALUES (9999, 09, 4283);
+
+INSERT INTO flight_ticket
+VALUES (1010, 10, 1921);
+
 
 
 INSERT INTO luggage
