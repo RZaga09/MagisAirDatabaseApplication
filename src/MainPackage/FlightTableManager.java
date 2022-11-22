@@ -65,7 +65,7 @@ public class FlightTableManager extends TableManagerTemplate {
     }
     
     @Override
-    public String setRecordsQuery() {
+    public String setGetAllRecordsQuery() {
         //String query = "SELECT flight.flight_id, flight.origin, origin.city_name, flight.destination, destination.city_name, flight.departure_date, flight.departure_time, flight.stopover_id, flight.total_flight_time, flight.arrival_date, flight.arrival_time, flight.flight_cost FROM flight, city origin, city destination WHERE flight.origin = origin.city_id AND flight.destination = destination.city_id";
         String query = "SELECT flight.flight_id, flight.origin, origin.city_name, flight.destination, destination.city_name, flight.departure_date, flight.departure_time, flight.stopover_id, timediff(Cast(CONCAT(arrival_date, ' ',arrival_time) as datetime), Cast(CONCAT(departure_date, ' ',departure_time) as datetime)), flight.arrival_date, flight.arrival_time, flight.flight_cost FROM flight, city origin, city destination WHERE flight.origin = origin.city_id AND flight.destination = destination.city_id ORDER BY flight.flight_id";
         

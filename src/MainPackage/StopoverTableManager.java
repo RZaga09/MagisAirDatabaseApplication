@@ -53,7 +53,7 @@ public class StopoverTableManager extends TableManagerTemplate {
     }
     
     @Override
-    public String setRecordsQuery() {
+    public String setGetAllRecordsQuery() {
         String query = "SELECT stopover.*, city.city_name FROM stopover LEFT JOIN city ON stopover.stopover_city = city.city_id ORDER BY stopover.stopover_id";
         return query;
     }

@@ -30,11 +30,15 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     Connection dbConnection;
     String tablename; //table being managed
     int dataInputsCount = 4; //how many inputs there are in the form
-    String id_name = "authorid";
-   
+    String id_name = "authorid"; //primary key
 
     /**
      * Creates a TableManagerTemplate instance
+     * 
+     * @implNote {@code TableManagerTemplate} has a function called {@code initComponents()}
+     * that set ups the GUI of a class instance. This function is disabled by default
+     * to ensure that classes that extend {@code TableManagerTemplate} do not have their
+     * GUI overridden or tampered by {@code TableManagerTemplate}'s own GUI.
      */   
     public TableManagerTemplate(Connection dbConnection) throws SQLException {
         //initComponents();
@@ -66,13 +70,17 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         return dataInputs;
     }
     
+   
+    
+    // ==================================================
+    // Functions for adding records to database
+    // ==================================================
     /**
      * Attempts to add a record to the table this {@code TableManagerTemplate}
      * instance manages.
      * 
      * @throws SQLException if the record was not added to the database.
      */
-    
     public void addRecord()throws SQLException{
         try {
             String[] dataInputs = getFormData();
@@ -89,6 +97,15 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Helper function to {@code addRecord()}. Sets the query to be executed
+     * by the aforementioned function
+     * 
+     * @param dataInputs
+     * @return query to be executed.
+     * @implNote implementation of this method is to be overriden and tailored
+     * by each class extending {@code TableManagerTemplate} for their own use.
+     */
     public String setAddQuery(String[] dataInputs) {
         String valuesList = "VALUES(" + dataInputs[1] + ", " + dataInputs[2]
                     + ", " + dataInputs[3] + ")";
@@ -96,10 +113,15 @@ public class TableManagerTemplate extends javax.swing.JFrame {
                     + "address) " + valuesList + ";";
         return query;
     }
+
     
+    
+    // ==================================================
+    // Functions for getting all records to database
+    // ==================================================
     public void getAllRecords()throws SQLException {
         try{
-            String query = setRecordsQuery();
+            String query = setGetAllRecordsQuery();
             Statement statement = dbConnection.createStatement();
             ResultSet recordsList = statement.executeQuery(query);
             
@@ -111,11 +133,28 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         }
     }
     
-    public String setRecordsQuery() {
+    /**
+     * Helper function to {@code getAllRecords()}. Sets the query to be executed
+     * by the aforementioned function
+     * 
+     * @param dataInputs
+     * @return query to be executed.
+     * @implNote implementation of this method is to be overriden and tailored
+     * by each class extending {@code TableManagerTemplate} for their own use.
+     */
+    public String setGetAllRecordsQuery() {
         String query = "SELECT * FROM " + tablename;
         return query;
     }
-    
+   
+        /**
+     * Helper function to {@code getAllRecords()}. Writes the {@code ResultSet}
+     * to the rows of the {@code JTable} passed into the parameter.
+     * 
+     * @param dataInputs
+     * @implNote implementation of this method is to be overriden and tailored
+     * by each class extending {@code TableManagerTemplate} for their own use.
+     */
     public void writeRecordsToTable(JTable tbl, ResultSet rs) throws SQLException {
         DefaultTableModel table = (DefaultTableModel)tblRecordsList.getModel();
         table.setRowCount(0);
@@ -131,6 +170,12 @@ public class TableManagerTemplate extends javax.swing.JFrame {
             }
     }
     
+    
+    
+    
+    // ==================================================
+    // Functions for getting specific record from database
+    // ==================================================
     /**
      * Attempts to retrieve a record with a specific primary key on the table.
      * 
@@ -139,16 +184,12 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     public void getRecord() throws SQLException {
         try {
             String[] dataInputs = getFormData();
-            String query = "SELECT * FROM " + tablename + " WHERE authorid = "
+            String query = "SELECT * FROM " + tablename + " WHERE " + id_name + " = "
                     + dataInputs[0];
+            System.out.println("QUERY GENERATED: " + query);
             Statement statement = dbConnection.createStatement();
             ResultSet record = statement.executeQuery(query);
-            System.out.println("QUERY GENERATED: " + query);
-            record.next(); //pointer isn't pointed at first row so next() is needed
-            txtID.setText(String.valueOf(record.getInt(1)));
-            txtFirstName.setText(record.getString(2));
-            txtLastName.setText(record.getString(3));
-            txtAddress.setText(record.getString(4));
+            displayRecord(record);
             System.out.println("Record succesfully retrieved.");
             
         } catch (SQLException e){
@@ -157,11 +198,30 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     }
     
     /**
+     * A helper function that displays the retrieved results in {@code getRecord()}.
+     * How the results are displayed vary depending from table to table.
+     * 
+     * @param record a {@code ResultSet} containing the records retrieved from the
+     * database
+     * @throws SQLException if attempt to display results caused an error
+     */
+    public void displayRecord(ResultSet record) throws SQLException{
+        record.next(); //pointer isn't pointed at first row so next() is needed
+        txtID.setText(String.valueOf(record.getInt(1)));
+        txtFirstName.setText(record.getString(2));
+        txtLastName.setText(record.getString(3));
+        txtAddress.setText(record.getString(4));
+    }
+    
+    
+    // ==================================================
+    // Functions for updating specific record from database
+    // ==================================================
+    /**
      * Attempts to update a record with a specific given primary key on the table.
      * 
      * @throws SQLException if attempt to update failed
      */
-    
     public void updateRecord()throws SQLException {
         try {
             String[] dataInputs = getFormData();
@@ -177,6 +237,15 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Helper function to {@code updateRecord()}. Sets the query to be executed
+     * by the aforementioned function
+     * 
+     * @param dataInputs
+     * @return query to be executed.
+     * @implNote implementation of this method is to be overriden and tailored
+     * by each class extending {@code TableManagerTemplate} for their own use.
+     */
     public String setUpdateQuery(String[] dataInputs) {
         String query = "UPDATE " + tablename + " SET firstname = " + dataInputs[1]
                 + ", lastname = " + dataInputs[2] + ", address = "  + dataInputs[3]
@@ -184,6 +253,12 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         return query;
     }
     
+    
+    
+    
+    // ==================================================
+    // Function for deleting specific record from database
+    // ==================================================
     /**
      * Attempts to delete a record with a specific primary key on the table.
      * 
@@ -191,7 +266,6 @@ public class TableManagerTemplate extends javax.swing.JFrame {
      * error is caused by the primary key of the record being deleted is the
      * primary key of some record in another table.
      */
-    
     public void deleteRecord() throws SQLException {
         try {
             String[] dataInputs = getFormData();
@@ -207,6 +281,16 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         }
         
     }
+
+    
+    // note: deleteRecord does not need a helper function to generate a query
+    // because the values it needs to generate one is already provided in the
+    // class variables and by getFormData()
+    
+    
+    
+    
+    
 
     
     /**

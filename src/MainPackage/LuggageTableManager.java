@@ -53,7 +53,7 @@ public class LuggageTableManager extends TableManagerTemplate {
     }
     
     @Override
-    public String setRecordsQuery() {
+    public String setGetAllRecordsQuery() {
         String query = "select luggage.luggage_id, luggage.passenger_id, CONCAT(passenger.first_name, ' ', passenger.middle_initial, ' ', passenger.last_name), luggage.description, luggage.qty, luggage.luggage_cost from luggage, passenger where luggage.passenger_id = passenger.passenger_id order by luggage.luggage_id";
         return query;
     }

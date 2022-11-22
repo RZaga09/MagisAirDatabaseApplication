@@ -55,7 +55,7 @@ public class PassengerTableManager extends TableManagerTemplate {
     }
     
     @Override
-    public String setRecordsQuery() {
+    public String setGetAllRecordsQuery() {
         String query = "SELECT * from passenger ORDER BY passenger_id";
         return query;
     }

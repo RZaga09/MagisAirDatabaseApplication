@@ -43,7 +43,7 @@ public class CityTableManager extends TableManagerTemplate {
     }
     
     @Override
-    public String setRecordsQuery() {
+    public String setGetAllRecordsQuery() {
         String query = "SELECT * FROM " + tablename + " ORDER BY " + tablename + ".city_id";
         return query;
     }

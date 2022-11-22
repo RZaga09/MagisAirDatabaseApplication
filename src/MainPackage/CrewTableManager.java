@@ -52,7 +52,7 @@ public class CrewTableManager extends TableManagerTemplate {
     }
     
     @Override
-    public String setRecordsQuery() {
+    public String setGetAllRecordsQuery() {
         String query = "select * from crew order by crew_id";
         return query;
     }
