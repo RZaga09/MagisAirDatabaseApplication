@@ -2,19 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Rac/Documents/NetBeansProjects/MagisAirDatabaseApplication/src/MainPackage/StopoverTableManager.java</file>
-            <file>file:/C:/Users/Rac/Documents/NetBeansProjects/MagisAirDatabaseApplication/src/MainPackage/PassengerTableManager.java</file>
-            <file>file:/C:/Users/Rac/Documents/NetBeansProjects/MagisAirDatabaseApplication/src/MainPackage/BookingReport.java</file>
-            <file>file:/C:/Users/Rac/Documents/NetBeansProjects/MagisAirDatabaseApplication/src/MainPackage/CityTableManager.java</file>
-            <file>file:/C:/Users/Rac/Documents/NetBeansProjects/MagisAirDatabaseApplication/src/MainPackage/SampleReportGenerator.java</file>
-            <file>file:/C:/Users/Rac/Documents/NetBeansProjects/MagisAirDatabaseApplication/src/MainPackage/TableManagerTemplate.java</file>
-            <file>file:/C:/Users/Rac/Documents/NetBeansProjects/MagisAirDatabaseApplication/src/MainPackage/MainMenu.java</file>
-            <file>file:/C:/Users/Rac/Documents/NetBeansProjects/MagisAirDatabaseApplication/src/MainPackage/FlightTableManager.java</file>
-            <file>file:/C:/Users/Rac/Documents/NetBeansProjects/MagisAirDatabaseApplication/src/MainPackage/LoginPage.java</file>
-            <file>file:/C:/Users/Rac/Documents/NetBeansProjects/MagisAirDatabaseApplication/src/MainPackage/LuggageTableManager.java</file>
-            <file>file:/C:/Users/Rac/Documents/NetBeansProjects/MagisAirDatabaseApplication/src/MainPackage/CrewTableManager.java</file>
-            <file>file:/C:/Users/Rac/Documents/NetBeansProjects/MagisAirDatabaseApplication/src/MainPackage/TicketTableManager.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
