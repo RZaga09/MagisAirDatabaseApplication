@@ -17,8 +17,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;  
 /**
  *
- * @author Rac Elizaga
- * @author Ray Rafael Abenido
+ * @author InfoNet
  */
 public class CrewTableManager extends TableManagerTemplate {
 
@@ -30,6 +29,7 @@ public class CrewTableManager extends TableManagerTemplate {
         getAllRecords();
         id_name = "crew_id";
         fillDropDown();
+        setLocationRelativeTo(null);
     }
 
     @Override

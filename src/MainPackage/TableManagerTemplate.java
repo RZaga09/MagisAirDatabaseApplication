@@ -20,8 +20,7 @@ import javax.swing.JTable;
  * 
  * @since 1.0
  * @version 1.0
- * @author Ray Rafael Abenido
- * @author Rac Elizaga
+ * @author InfoNet
  */
 
 public class TableManagerTemplate extends javax.swing.JFrame {
@@ -44,6 +43,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     public TableManagerTemplate(Connection dbConnection) throws SQLException {
         //initComponents();
         this.dbConnection = dbConnection;
+        setLocationRelativeTo(null);
         //getAllRecords();
     }
     

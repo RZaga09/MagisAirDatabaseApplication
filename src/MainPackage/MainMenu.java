@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 
 /**
  *
- * @author Rac Elizaga
+ * @author InfoNet
  */
 
 public class MainMenu extends javax.swing.JFrame {
@@ -24,6 +24,7 @@ public class MainMenu extends javax.swing.JFrame {
      */
     public MainMenu() {
         initComponents();
+        setLocationRelativeTo(null);
     }
     
     public void setConnection(Connection c) {

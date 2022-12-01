@@ -26,6 +26,7 @@ public class SampleReportGenerator extends javax.swing.JFrame {
         this.dbConnection = dbConnection;
         fillBookDropDown();
         fillInformation();
+        setLocationRelativeTo(null);
     }
     
     

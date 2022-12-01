@@ -15,8 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 /**
  *
- * @author Rac Elizaga
- * @author Ray Rafael Abenido
+ * @author InfoNet
  */
 public class CityTableManager extends TableManagerTemplate {
 
@@ -27,6 +26,7 @@ public class CityTableManager extends TableManagerTemplate {
         initComponents();
         getAllRecords();
         id_name = "city_id";
+        setLocationRelativeTo(null);
     }
 
     @Override

@@ -17,8 +17,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;  
 /**
  *
- * @author Rac Elizaga
- * @author Ray Rafael Abenido
+ * @author InfoNet
  */
 public class BookingReport extends TableManagerTemplate {
     
@@ -32,6 +31,7 @@ public class BookingReport extends TableManagerTemplate {
         fillDropDown();
         getAllRecords();
         id_name = "stopover_id";
+        setLocationRelativeTo(null);
         
     }
 

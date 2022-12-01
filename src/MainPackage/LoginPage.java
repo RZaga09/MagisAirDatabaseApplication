@@ -17,7 +17,7 @@ import java.sql.PreparedStatement;
  * 
  * @since 1.0
  * @version 1.0
- * @author Rac Gerard Elizaga
+ * @author InfoNet
  * 
  */
 
@@ -30,6 +30,7 @@ public class LoginPage extends javax.swing.JFrame {
      */
     public LoginPage() {
         initComponents();
+        setLocationRelativeTo(null);
     }
     
      /**

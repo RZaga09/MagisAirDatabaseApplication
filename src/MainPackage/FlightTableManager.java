@@ -15,8 +15,7 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 /**
  *
- * @author Rac Elizaga
- * @author Ray Rafael Abenido
+ * @author InfoNet
  */
 public class FlightTableManager extends TableManagerTemplate {
 
@@ -28,6 +27,7 @@ public class FlightTableManager extends TableManagerTemplate {
         getAllRecords();
         id_name = "flight_id";
         fillDropDown();
+        setLocationRelativeTo(null);
     }
 
     @Override
