@@ -74,6 +74,7 @@ public class SampleReportGenerator extends javax.swing.JFrame {
         publisherField = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setText("SELE");
 

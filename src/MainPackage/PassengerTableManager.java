@@ -156,6 +156,7 @@ public class PassengerTableManager extends TableManagerTemplate {
         jLabel6.setText("Last Name");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         btnAddRecord.setText("ADD RECORD");
         btnAddRecord.addActionListener(new java.awt.event.ActionListener() {

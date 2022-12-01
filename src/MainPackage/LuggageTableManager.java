@@ -148,6 +148,7 @@ public class LuggageTableManager extends TableManagerTemplate {
         txtDescription = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel2.setText("Passenger ID");
 

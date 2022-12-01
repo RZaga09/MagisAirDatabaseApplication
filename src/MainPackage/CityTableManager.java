@@ -108,6 +108,7 @@ public class CityTableManager extends TableManagerTemplate {
         mainMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel2.setText("CityName");
 

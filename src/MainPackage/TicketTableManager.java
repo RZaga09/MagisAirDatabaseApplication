@@ -145,6 +145,7 @@ public class TicketTableManager extends TableManagerTemplate {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel2.setText("Flight ID");
 

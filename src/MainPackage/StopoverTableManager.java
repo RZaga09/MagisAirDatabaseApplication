@@ -138,6 +138,7 @@ public class StopoverTableManager extends TableManagerTemplate {
         txtCity = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel2.setText("Date (yyyy-mm-dd)");
 

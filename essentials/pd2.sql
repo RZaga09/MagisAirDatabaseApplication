@@ -1,3 +1,5 @@
+-- This .sql file is meant to be run on mysql. Do not run on postgres.
+
 DROP DATABASE flightsdb;
 CREATE DATABASE flightsdb;
 USE flightsdb;

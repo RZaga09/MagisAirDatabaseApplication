@@ -179,6 +179,7 @@ public class BookingReport extends TableManagerTemplate {
         jLabel8.setText("jLabel8");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         tblFlights.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

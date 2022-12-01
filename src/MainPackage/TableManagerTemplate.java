@@ -85,7 +85,6 @@ public class TableManagerTemplate extends javax.swing.JFrame {
     public void addRecord()throws SQLException{
         try {
             String[] dataInputs = getFormData();
-            System.out.println(dataInputs);
             String query = setAddQuery(dataInputs);
             System.out.println("QUERY GENERATED: " + query);
             Statement statement = dbConnection.createStatement();
@@ -322,6 +321,7 @@ public class TableManagerTemplate extends javax.swing.JFrame {
         mainMenu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         tblRecordsList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

@@ -181,6 +181,7 @@ public class FlightTableManager extends TableManagerTemplate {
         txtStopover = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel2.setText("Origin CIty ID");
 
